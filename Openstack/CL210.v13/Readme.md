@@ -32,6 +32,7 @@ List servres:
 (undercloud) [stack@director ~]$ openstack server list -c Name -c Networks
 ```
 List networks:
+```
 (undercloud) [stack@director ~]$ openstack network list -c Name -c Subnets
 +--------------+--------------------------------------+
 | Name         | Subnets                              |
@@ -41,6 +42,7 @@ List networks:
 
 ```
 show subnet details:
+```
 (undercloud) [stack@director ~]$ openstack subnet show 6457fb0f-2d9d-43af-93ca-f0c3dc008c82
 +-------------------+---------------------------------+
 | Field             | Value                           |
