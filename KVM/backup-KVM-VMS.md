@@ -29,3 +29,10 @@ The key's randomart image is:
 ```
 ssh-copy-id root@IP_Address 
 ```
+3. Test access to backup server using ssh 
+
+```
+ssh root@IP_ADDRESS
+```
+
+# Now use this script to backup all VMs qcow2 images and XML from KVM server to Backup Server 
