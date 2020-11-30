@@ -69,4 +69,14 @@ docker ps -a --format="table {{.Names}}\t{{.Status}}" | grep nova_api
 nova_api                           Exited (0) 2 minutes ago
 docker start nova_api
 docker ps --format="table {{.Names}}\t{{.Status}}" | grep nova_api
-  
+```  
+# create instance with below information 
+| Attribute	| Value |
+| ------------ | ---------- |
+| Flavor	   |default|
+| Key pair	| example-keypair |
+| Network	| production-network1 |
+| Image	| production-rhel7 |
+| Security |group	production |
+| Name	|production-server1 |
+|User data |	http://materials.example.com/oscli-setup.sh |
