@@ -84,7 +84,7 @@ save the configration
 
 list crontab jobs
 ```
-crontab -e 
+crontab -l 
 30 3 * * * /root/backup-kvm.sh
 ```
 
