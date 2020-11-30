@@ -63,11 +63,10 @@ ovn-dbs-bundle-docker-0            Up 7 hours
 openstack-manila-share-docker-0    Up 7 hours
 openstack-cinder-volume-docker-0   Up 7 hours
 
- docker stop nova_api
-  docker ps -a --format="table {{.Names}}\t{{.Status}}" | grep nova_api
+docker stop nova_api
+docker ps -a --format="table {{.Names}}\t{{.Status}}" | grep nova_api
 ...output omitted...
 nova_api                           Exited (0) 2 minutes ago
 docker start nova_api
 docker ps --format="table {{.Names}}\t{{.Status}}" | grep nova_api
-  
   
