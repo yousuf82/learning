@@ -53,4 +53,21 @@ Search for the dhcp_start and dhcp_end parameter IP adresses in the undercloud.c
 dhcp_start = 172.25.249.51
 dhcp_end = 172.25.249.59
 ```
-end
+
+list docker services :
+```
+ssh heat-admin@controller0
+ docker ps --format="table {{.Names}}\t{{.Status}}"
+NAMES                              STATUS
+ovn-dbs-bundle-docker-0            Up 7 hours
+openstack-manila-share-docker-0    Up 7 hours
+openstack-cinder-volume-docker-0   Up 7 hours
+
+ docker stop nova_api
+  docker ps -a --format="table {{.Names}}\t{{.Status}}" | grep nova_api
+...output omitted...
+nova_api                           Exited (0) 2 minutes ago
+docker start nova_api
+docker ps --format="table {{.Names}}\t{{.Status}}" | grep nova_api
+  
+  
