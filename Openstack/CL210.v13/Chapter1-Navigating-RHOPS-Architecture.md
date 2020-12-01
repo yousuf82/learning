@@ -25,11 +25,11 @@ List the networks and interfaces on the overcloud nodes.
 |                  | regionOne                                |
 |                  |   admin: http://172.25.249.202:5050      |
 ```
-List servres:
+List undercloud servres:
 ```
 (undercloud) [stack@director ~]$ openstack server list -c Name -c Networks
 ```
-List networks:
+List undercloud networks:
 ```
 (undercloud) [stack@director ~]$ openstack network list -c Name -c Subnets
 +--------------+--------------------------------------+
@@ -39,7 +39,7 @@ List networks:
 +--------------+--------------------------------------+
 
 ```
-show subnet details:
+show undercloud subnet details:
 ```
 (undercloud) [stack@director ~]$ openstack subnet show 6457fb0f-2d9d-43af-93ca-f0c3dc008c82
 +-------------------+---------------------------------+
@@ -54,7 +54,7 @@ dhcp_start = 172.25.249.51
 dhcp_end = 172.25.249.59
 ```
 
-list docker services :
+list docker services in controller :
 ```
 ssh heat-admin@controller0
  docker ps --format="table {{.Names}}\t{{.Status}}"
@@ -77,6 +77,23 @@ docker ps --format="table {{.Names}}\t{{.Status}}" | grep nova_api
 | Key pair	| example-keypair |
 | Network	| production-network1 |
 | Image	| production-rhel7 |
-| Security |group	production |
+| Security group	| production |
 | Name	|production-server1 |
 |User data |	http://materials.example.com/oscli-setup.sh |
+
+
+````
+source operator1-production-rc
+openstack server create \
+--flavor default --key-name example-keypair \
+--nic net-id=production-network1 --image roduction-rhel7 \
+--secuirty-group production \
+--user-date "http://materials.example.com/oscli-setup.sh" \
+production-server1 --wait
+
+
+openstack floating ip create provider-datacentre
+
+
+openstack server add floating ip production-server1 172.25.250.N 
+
