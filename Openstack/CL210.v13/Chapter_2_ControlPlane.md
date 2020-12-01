@@ -1,7 +1,7 @@
 # Introduce the critical core services making up the OpenStack control plane.
 
-| | |
+| Objectives| |
 | -------| -------------------- |
-|    Objectives | Describe service endpoint configuration and security. |
-|             |    Describe message broker patterns and implementation. |
-|             |    Identify the shared services running on a controller node.  |
+|   1  | Describe service endpoint configuration and security. |
+|    2         |    Describe message broker patterns and implementation. |
+|     3        |    Identify the shared services running on a controller node.  |
