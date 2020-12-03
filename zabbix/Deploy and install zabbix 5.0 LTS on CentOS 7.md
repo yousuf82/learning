@@ -122,5 +122,5 @@ http://xxx.xxx.xxx.xxx/zabbix/
 
 Replace the IP address or hostname as per your setup.
 
-
+![image2020-7-14_14-12-45](https://user-images.githubusercontent.com/72554657/100981124-c64c8180-355f-11eb-93c7-87fc0910b2c3.png)
 
