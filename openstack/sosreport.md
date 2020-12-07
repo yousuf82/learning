@@ -1,6 +1,11 @@
 # This guide will help you to create sosrport for RHOPS Servers
 
-login to ctrl server 
+list undercloud servers
+```
+source stackrc
+openstack server list 
+```
+from director access to ctrl server 
 ```
 ssh heat-admin@CTRL-IP
 sudo -i
