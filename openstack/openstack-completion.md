@@ -1,4 +1,4 @@
-# How to confiugre direcotr for auto-compete openstack commands
+# How to confiugre direcotr for auto-compete openstack commands (use root user)
 
 1. Install bash-completion package
 ```
