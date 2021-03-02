@@ -13,7 +13,7 @@ create iptables.yml file
       protocol: tcp
       destination_port: 10050
       jump: ACCEPT
-      comment: Accept new 443 connections.
+      comment: Accept zabbix connections.
   - name: reload iptables
     service:
       name: iptables
