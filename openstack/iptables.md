@@ -1,7 +1,8 @@
 
-# create ansible file 
+# enable port in iptables (opentack)
 
-
+create iptables.yml file
+```
 ---
 - hosts: all
   become: yes
@@ -17,3 +18,9 @@
     service:
       name: iptables
       state: reloaded
+```
+run the ansible file using 
+```
+source stackrc
+ansible-playbook -i /bin/tripleo-ansible-inventory iptables.yml
+```
