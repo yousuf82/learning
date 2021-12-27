@@ -1,99 +1,89 @@
-## Chapter 1: Navigating the Red Hat OpenStack Platform Architecture
+Chapter-01 Navigating the Red Hat OpenStack Platform Architecture.txt
+Who has access
+Not shared
+System properties
+Type
+Text
+Size
+2 KB
+Storage used
+2 KB
+Location
+ex210 sammary
+Owner
+me
+Modified
+Sep 21, 2021 by me
+Opened
+4:35 PM by me
+Created
+Sep 15, 2021 with Google Drive for desktop
+Add a description
+Viewers can download
+# Chapter 1: Navigating the Red Hat OpenStack Platform Architecture
+------------------------------------------------------------------------
 
-List the networks and interfaces on the overcloud nodes.
+openstack endpoint list
+openstack service list
+openstack server list
+cat  undercloud-passwords.conf
+cat undercloud.conf | egrep -v "(^#.*|^$)"
+ip -br a
 
-```
-[student@workstation ~]$ ssh stack@director
-(undercloud) [stack@director ~]$ openstack network list
-(undercloud) [stack@director ~]$ ip a | grep -E 'br-ctlplane|eth1'
-(undercloud) [stack@director ~]$ openstack compute service list -c Binary -c Host -c Status -c State
-+----------------+--------------------------+---------+-------+
-| Binary         | Host                     | Status  | State |
-+----------------+--------------------------+---------+-------+
-| nova-conductor | director.lab.example.com | enabled | up    |
-| nova-scheduler | director.lab.example.com | enabled | up    |
-| nova-compute   | director.lab.example.com | enabled | up    |
-+----------------+--------------------------+---------+-------+
-(undercloud) [stack@director ~]$ openstack catalog list -c Name -c Endpoints
-+------------------+------------------------------------------+
-| Name             | Endpoints                                |
-+------------------+------------------------------------------+
-| ironic-inspector | regionOne                                |
-|                  |   public: https://172.25.249.201:13050   |
-|                  | regionOne                                |
-|                  |   internal: http://172.25.249.202:5050   |
-|                  | regionOne                                |
-|                  |   admin: http://172.25.249.202:5050      |
-```
-List undercloud servres:
-```
-(undercloud) [stack@director ~]$ openstack server list -c Name -c Networks
-```
-List undercloud networks:
-```
-(undercloud) [stack@director ~]$ openstack network list -c Name -c Subnets
-+--------------+--------------------------------------+
-| Name         | Subnets                              |
-+--------------+--------------------------------------+
-| ctlplane     | 6457fb0f-2d9d-43af-93ca-f0c3dc008c82 |
-+--------------+--------------------------------------+
-
-```
-show undercloud subnet details:
-```
-(undercloud) [stack@director ~]$ openstack subnet show 6457fb0f-2d9d-43af-93ca-f0c3dc008c82
-+-------------------+---------------------------------+
-| Field             | Value                           |
-+-------------------+---------------------------------+
-| allocation_pools  | 172.25.249.51-172.25.249.59     |
-```
-Search for the dhcp_start and dhcp_end parameter IP adresses in the undercloud.conf file
-```
-(undercloud) [stack@director ~]$ grep '^dhcp_' undercloud.conf
-dhcp_start = 172.25.249.51
-dhcp_end = 172.25.249.59
-```
-
-list docker services in controller :
-```
-ssh heat-admin@controller0
- docker ps --format="table {{.Names}}\t{{.Status}}"
-NAMES                              STATUS
-ovn-dbs-bundle-docker-0            Up 7 hours
-openstack-manila-share-docker-0    Up 7 hours
-openstack-cinder-volume-docker-0   Up 7 hours
-
-docker stop nova_api
-docker ps -a --format="table {{.Names}}\t{{.Status}}" | grep nova_api
-...output omitted...
-nova_api                           Exited (0) 2 minutes ago
-docker start nova_api
-docker ps --format="table {{.Names}}\t{{.Status}}" | grep nova_api
-```  
-# create instance with below information 
-| Attribute	| Value |
-| ------------ | ---------- |
-| Flavor	   |default|
-| Key pair	| example-keypair |
-| Network	| production-network1 |
-| Image	| production-rhel7 |
-| Security group	| production |
-| Name	|production-server1 |
-|User data |	http://materials.example.com/oscli-setup.sh |
+openstack tripleo container image prepare default --local-push-destination  --output-env-file local_registry_images.yaml
+openstack subnet show ctlplane-subnet
+openstack image list
+openstack baremetal node list
+openstack stack list
+ipmitool -I lanplus -U admin -P password  -H 172.25.249.112 power status
+openstack baremetal node power on controller0
+openstack baremetal node power off controller0
 
 
-````
-source operator1-production-rc
-openstack server create \
---flavor default --key-name example-keypair \
---nic net-id=production-network1 --image roduction-rhel7 \
---secuirty-group production \
---user-date "http://materials.example.com/oscli-setup.sh" \
-production-server1 --wait
+# list container and filter option
+
+podman ps    --filter status=running --format="table {{.ID}} {{.Names}} {{.Status}}"
+podman ps -a --format="table {{.Names}} {{.Status}}" | grep heat
+podman stats cinder_api
+podman logs --since 3h  --tail 4 cinder_api
+podman images --format="{{.Repository}}"
+
+# show as json output
+podman images
+podman inspect cinder_api
+podman inspect neutron_api | jq .[0].HostConfig.Binds
+podman inspect nova_scheduler  --format "{{json .HostConfig.Binds}}" | jq .
 
 
-openstack floating ip create provider-datacentre
+# run command within container
+podman exec -it keystone /bin/bash
+podman exec -u root keystone crudini --get /etc/keystone/keystone.conf DEFAULT debug
+crudini --get  /var/lib/config-data/puppet-generated/keystone/etc/keystone/keystone.conf DEFAULT debug
+crudini --set /var/lib/config-data/puppet-generated/keystone/etc/keystone/keystone.conf DEFAULT debug True
+podman restart keystone
+podman exec -u root keystone crudini --get /etc/keystone/keystone.conf DEFAULT debug 
+
+# Ceph 
+podman exec ceph-mon-controller ceph osd ls
+podman exec ceph-mon-controller0 ceph osd lspools
+podman exec ceph-mon-controller ceph -s
+podman exec ceph-mon-controller ceph df
+podman ps --format '{{ .Names}}' | grep ceph
 
 
-openstack server add floating ip production-server1 172.25.250.N 
+# manage containers using systemd
+systemctl list-timers | grep tripleo
+systemctl list-units | grep tripleo
+cat /etc/systemd/system/tripleo_cinder_api.service
+systemctl status tripleo_cinder_api
+ls /etc/systemd/system/tripleo_*.service
+
+
+# Describing the Overcloud
+grep '^- name:' ~/templates/roles_data.yaml
+openstack endpoint list 
+ip -br a
+ip -br a s vlan134
+netstat -tupln | grep 10.14.132.125
+
 
