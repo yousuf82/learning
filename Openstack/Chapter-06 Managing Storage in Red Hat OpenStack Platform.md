@@ -13,7 +13,7 @@ ceph-mon-controller0 ceph auth list
 
 ```
 
-``
+```
 openstack image list
 +--------------------------------------+-----------------+--------+
 | ID                                   | Name            | Status |
