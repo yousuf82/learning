@@ -1,4 +1,4 @@
-Chapter 1: Navigating the Red Hat OpenStack Platform Architecture
+Chapter 1: Navigating the Red Hat OpenStack Platform Architecture (undercloud)
 ```
 openstack endpoint list
 openstack service list
