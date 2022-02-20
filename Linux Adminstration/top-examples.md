@@ -7,3 +7,7 @@ top -n 1 -b -o +%CPU | head -n 10'
 ```
 top -n 1 -b -o +%MEM | head -n 10
 ```
+# System RAM Usage:
+```
+free -h
+```
