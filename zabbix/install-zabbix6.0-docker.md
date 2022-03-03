@@ -1,5 +1,11 @@
 # Install and deploy Zabbix 6.0 container on RHEL 8
 
+Install utilities :
+
+```
+yum install -y wget telnet vim bzip2 net-tools
+```
+
 Update the RHEL or OL Server 
 ```
 yum update -y
