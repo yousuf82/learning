@@ -1,0 +1,37 @@
+---
+- name: Register zabbix servers stg and prd
+  hosts: csl-ops-zabbix01.gcloud.prd 
+  vars:
+    repos:
+      - rhel-7-server-rpms
+#     - rhel-7-server-extras-rpms
+#     - rhel-7-server-rh-common-rpms
+      - rhel-7-server-satellite-tools-6.7-rpms
+  tasks:
+    - name: remove old katello 
+      command: 'rpm -e katello-ca-consumer-csl-prd-satellite01.gcloud.prd'
+    - name: Remote RPM install with yum
+      command: 'rpm -U  http://csl-prd-satellite01.gcloud.prd/pub/katello-ca-consumer-latest.noarch.rpm'
+    - name: Register system
+      redhat_subscription:
+        activationkey: rhel7-kvm-guest.key
+        org_id: gcloud
+        force_register: yes
+    - name: Disable all repos
+      rhsm_repository:
+        name: "*"
+        state: disabled 
+    - name: Enable repos
+      rhsm_repository:
+        name: "{{ repos }}"
+        state: enabled     
+    - name: Install katello-agent with yum
+      yum:
+        name: katello-agent
+        state: latest
+    - name: Maske sure goferd serviec is running
+      systemd:
+        name: goferd
+        state: restarted
+        enabled: yes
+
