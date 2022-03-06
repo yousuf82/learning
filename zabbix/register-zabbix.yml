@@ -1,13 +1,10 @@
 ---
-- name: Register zabbix servers stg and prd
-  hosts: csl-ops-zabbix01.gcloud.prd 
+# deploy zabbix agent using ansible playbook
+- name: Deploy zabbix 6.0 agent 
+  hosts: 
   vars:
     repos:
-      - rhel-7-server-rpms
-#     - rhel-7-server-extras-rpms
-#     - rhel-7-server-rh-common-rpms
-      - rhel-7-server-satellite-tools-6.7-rpms
-  tasks:
+   tasks:
     - name: remove old katello 
       command: 'rpm -e katello-ca-consumer-csl-prd-satellite01.gcloud.prd'
     - name: Remote RPM install with yum
