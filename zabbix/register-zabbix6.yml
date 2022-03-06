@@ -21,11 +21,19 @@
          path: /etc/zabbix/zabbix_agent2.conf
          regexp:  'ServerActive='
          replace: 'ServerActive=10.30.11.151'
-     - name: Update ServerActive on zabbix_agent2.conf
+     - name: Update hostname on zabbix_agent2.conf
        replace:
          path: /etc/zabbix/zabbix_agent2.conf
          regexp:  'Hostname='
-         replace: 'ansible_hostname={{ ansible_hostname }}'
+         replace: 'Hostname={{ ansible_hostname }}'
+     - name: Allow new incoming SYN packets on TCP port 22 (SSH).
+       iptables:
+         chain: INPUT
+         protocol: tcp
+         destination_port: 10050
+         ctstate: ESTABLISHED,RELATED,NEW
+         jump: ACCEPT
+         comment: Accept zabbix connections.
      - name: enable and start zabbix_agent2 service
        systemd:
          name: zabbix-agent2
