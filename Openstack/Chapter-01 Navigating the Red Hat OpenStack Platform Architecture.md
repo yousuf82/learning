@@ -19,7 +19,7 @@ openstack baremetal node power off controller0
 
 list container and filter option
 ```
-podman ps    --filter status=running --format="table {{.ID}} {{.Names}} {{.Status}}"
+podman ps --filter status=running --format="table {{.ID}} {{.Names}} {{.Status}}"
 podman ps -a --format="table {{.Names}} {{.Status}}" | grep heat
 podman stats cinder_api
 podman logs --since 3h  --tail 4 cinder_api
@@ -42,6 +42,7 @@ crudini --set /var/lib/config-data/puppet-generated/keystone/etc/keystone/keysto
 podman restart keystone
 podman exec -u root keystone crudini --get /etc/keystone/keystone.conf DEFAULT debug 
 ```
+
 Ceph 
 ```
 podman exec ceph-mon-controller ceph osd ls
@@ -63,7 +64,6 @@ ls /etc/systemd/system/tripleo_*.service
 Describing the Overcloud
 ```
 grep '^- name:' ~/templates/roles_data.yaml
-openstack endpoint list 
 ip -br a
 ip -br a s vlan134
 netstat -tupln | grep 10.14.132.125
