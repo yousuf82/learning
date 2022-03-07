@@ -1,12 +1,12 @@
 Chapter 1: Navigating the Red Hat OpenStack Platform Architecture (undercloud)
+
+openstack commands
 ```
 openstack endpoint list
 openstack service list
 openstack server list
 cat  undercloud-passwords.conf
 cat undercloud.conf | egrep -v "(^#.*|^$)"
-ip -br a
-
 openstack tripleo container image prepare default --local-push-destination  --output-env-file local_registry_images.yaml
 openstack subnet show ctlplane-subnet
 openstack image list
