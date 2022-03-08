@@ -1,3 +1,10 @@
+Modify Network Interface Status
+
+```
+ip link set eth0 up
+ip link set eth0 down
+```
+
 You can select between IPv4 and IPv6 using the following syntax: 
 ```
 ### Only show TCP/IP IPv4  ##
