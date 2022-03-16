@@ -8,3 +8,8 @@ genarate openstack completion file
 ```
 openstack complete > /usr/share/bash-completion/completions/openstack
 ```
+add in .bashrc file
+
+``
+source /usr/share/bash-completion/completions/openstack > /dev/null 2>&1
+``
