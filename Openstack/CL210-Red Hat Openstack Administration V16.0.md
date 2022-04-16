@@ -621,4 +621,8 @@ ssh heat-admin@controller0 find /srv/node -iname *.data
 
 
 
+Configuring Provider Networks
+```
+ovs-vsctl get open . external-ids:ovn-bridge-mappings
+```
 
