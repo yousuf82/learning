@@ -1,3 +1,57 @@
+# EX210 Red Hat Certified Specialist in Cloud Infrastructure exam
+https://www.redhat.com/en/services/training/ex210-red-hat-certified-system-administrator-red-hat-openstack-exam?section=Objectives
+
+## Study points for the exam
+
+To become a Red Hat Certified System Administrator in Red Hat OpenStack, you will validate your ability to perform these tasks:
+
+* Manage the Red Hat OpenStack Platform control plane
+  * Manage control plane services
+  * Backup and restore control plane
+  * Start and stop an overcloud
+* Manage infrastructure security
+  * Manage end-to-end secure services
+  * Manage file-based component security with AIDE
+* Manage user security
+  * Manage an integrated IdM back-end configuration
+  * Manage scoped service access
+  * Manage project organization
+  * Create a Red Hat OpenStack Platform domain for a client organization
+  * Maintain token keys
+  * Customize user roles
+* Manage application deployment resources
+  * Create images and flavors
+  * Create and customize images
+  * Initialize an instance during deployment
+* Manage storage in Red Hat OpenStack Platform
+  * Manage a Red Hat OpenStack Platform-dedicated Ceph storage cluster
+  * Implement storage choices in Red Hat OpenStack Platform
+  * Manage a Ceph storage cluster
+  * Configure storage infrastructure
+  * Manage Swift storage
+* Manage networking
+  * Configure Open Virtual Networking (OVN) services
+  * Create and manage shared networks
+* Manage compute node operations
+  * Administer compute nodes
+  * Manage compute resource capacity
+  * Manage hyperconverged resource capacity
+  * Re-balance compute node workloads
+* Monitor operations
+  * Implement the Service Telemetry Framework
+  * Understand the flow of Red Hat OpenStack Platform services and components logging
+* Automate cloud application deployment
+  * Manage mass-scale application deployment
+  * Write heat orchestration templates
+  * Deploy applications using Ansible
+  * Create a load-balanced application stack
+* Troubleshoot operations
+   * Diagnose issues
+   * Troubleshoot common core issues
+   * Trace heat stack events and troubleshoot failures
+
+As with all Red Hat performance-based exams, configurations must persist after reboot without intervention.
+
 Chapter 1: Navigating the Red Hat OpenStack Platform Architecture (undercloud)
 
 openstack commands
