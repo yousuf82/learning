@@ -26,3 +26,18 @@ Create a static inventory file of your overcloud:
 ```
 tripleo-ansible-inventory --ansible_ssh_user heat-admin --static-yaml-inventory ~/inventory.yaml
 ```
+Create a playbook that contains a task to lock the operating system version to Red Hat Enterprise Linux 8.2 on all nodes:
+```
+ cat > ~/set_release.yaml <<'EOF'
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: set release to 8.2
+      command: subscription-manager release --set=8.2
+      become: true
+EOF
+```
+Run the set_release.yaml playbook:
+```
+ansible-playbook -i ~/inventory.yaml -f 25 ~/set_release.yaml 
+```
