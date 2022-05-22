@@ -22,3 +22,7 @@ The following table provides an outline of the steps required for the upgrade pr
 ```
 $ source ~/stackrc
 ```
+Create a static inventory file of your overcloud:
+```
+tripleo-ansible-inventory --ansible_ssh_user heat-admin --static-yaml-inventory ~/inventory.yaml
+```
