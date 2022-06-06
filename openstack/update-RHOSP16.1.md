@@ -141,3 +141,29 @@ Run dnf to upgrade the director main packages:
 ```
 sudo dnf update -y python3-tripleoclient* tripleo-ansible ansible
 ```
+
+
+ Updating the overcloud images
+ 
+ ```
+ openstack undercloud upgrade
+ ```
+ Wait until the undercloud upgrade process completes.
+Reboot the undercloud to update the operating system’s kernel and other system packages:
+```
+sudo reboot
+```
+Updating the overcloud images
+
+```
+source ~/stackrc
+rm -rf ~/images/*
+cd ~/images
+for i in /usr/share/rhosp-director-images/overcloud-full-latest-16.1.tar /usr/share/rhosp-director-images/ironic-python-agent-latest-16.1.tar; do tar -xvf $i; done
+cd ~
+openstack overcloud image upload --update-existing --image-path /home/stack/images/
+openstack overcloud node configure $(openstack baremetal node list -c UUID -f value)
+openstack image list
+ls -l /var/lib/ironic/httpboot
+```
+
