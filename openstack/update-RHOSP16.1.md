@@ -116,5 +116,28 @@ run the command :
 ```
 ansible-playbook -i inventory.yaml -f 25 container-tools.yaml
 ````
+Edit the container preparation file. The default name for this file is usually containers-prepare-parameter.yaml.
+Check the tag parameter is set to 16.1 for each rule set:
+```
+parameter_defaults:
+  ContainerImagePrepare:
+  - push_destination: true
+    set:
+      …​
+      tag: '16.1'
+    tag_from_label: '{version}-{release}'
+```
 
+Disabling fencing in the overcloud
 
+```
+ssh heat-admin@CONTROLLER_IP "sudo pcs property set stonith-enabled=false"
+```
+
+Updating the Undercloud
+
+Log in to the director as the stack user.
+Run dnf to upgrade the director main packages:
+```
+sudo dnf update -y python3-tripleoclient* tripleo-ansible ansible
+```
