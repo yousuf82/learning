@@ -41,3 +41,80 @@ Run the set_release.yaml playbook:
 ```
 ansible-playbook -i ~/inventory.yaml -f 25 ~/set_release.yaml 
 ```
+Updating Red Hat Openstack Platform and Ansible repositories
+
+```
+cat rhosp16-subscription.yml
+---
+- name: Register all OSP servers to satellite
+  hosts: all
+  become: yes
+  vars:
+    repos:
+      - rhel-8-for-x86_64-baseos-tus-rpms
+      - rhel-8-for-x86_64-appstream-tus-rpms
+      - rhel-8-for-x86_64-highavailability-tus-rpms
+      - ansible-2.9-for-rhel-8-x86_64-rpms
+      - advanced-virt-for-rhel-8-x86_64-rpms
+      - openstack-16.1-for-rhel-8-x86_64-rpms
+      - rhceph-4-tools-for-rhel-8-x86_64-rpms
+      - fast-datapath-for-rhel-8-x86_64-rpms
+  tasks:
+    - name: install katello-ca package with rpm
+      yum:
+        name: "http://$SERVER/pub/katello-ca-consumer-latest.noarch.rpm"
+        state: present
+    - name: clean redhat subscription
+      command: subscription-manager clean
+    - name: Register system
+      redhat_subscription:
+        activationkey: osp16_non-prod
+        org_id: "Default_Organization"
+        force_register: yes
+    - name: Disable all repos
+      rhsm_repository:
+        name: "*"
+        state: disabled
+    - name: Enable Compute node repos
+      rhsm_repository:
+        name: "{{ repos }}"
+        state: enabled
+```
+```
+ ansible-playbook -i inventory.yaml rhosp16-subscription.yml
+```
+Setting the container-tools and virt module versions
+
+Create a playbook that contains a task to set the container-tools module to version 2.0 on all nodes:
+```
+ cat > ~/container-tools.yaml <<'EOF'
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: disable default dnf module for container-tools
+      command: dnf module disable -y container-tools:rhel8
+      become: true
+    - name: set dnf module for container-tools:2.0
+      command: dnf module enable -y container-tools:2.0
+      become: true
+
+- hosts: undercloud,Compute,Controller
+  gather_facts: false
+  tasks:
+    - name: disable default dnf module for virt
+      command: dnf module disable -y virt:rhel
+      become: true
+    - name: disable 8.1 dnf module for virt
+      command: dnf module disable -y virt:8.1
+      become: true
+    - name: set dnf module for virt:8.2
+      command: dnf module enable -y virt:8.2
+      become: true
+EOF
+```
+run the command :
+```
+ansible-playbook -i inventory.yaml -f 25 container-tools.yaml
+````
+
+
