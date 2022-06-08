@@ -166,4 +166,26 @@ openstack overcloud node configure $(openstack baremetal node list -c UUID -f va
 openstack image list
 ls -l /var/lib/ironic/httpboot
 ```
+Running the overcloud update preparation
 
+```
+openstack overcloud update prepare \
+    --templates \
+    --stack <stack_name> \
+    -r <roles_data_file> \
+    -n <network_data_file> \
+    -e <environment_file> \
+    -e <environment_file> \
+  ```
+  Running the container image preparation
+  ```
+  openstack overcloud external-update run --stack overcloud --tags container_image_prepare
+  ```
+Optional: Updating the ovn-controller container on all overcloud servers
+```
+openstack overcloud external-update run --stack overcloud --tags ovn
+```
+Updating all Controller nodes
+```
+
+```
