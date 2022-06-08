@@ -187,5 +187,15 @@ openstack overcloud external-update run --stack overcloud --tags ovn
 ```
 Updating all Controller nodes
 ```
+openstack overcloud update run --stack <stack_name> --limit Controller --playbook all
+```
 
+Updating all HCI Compute nodes
+
+```
+openstack overcloud update run --stack overcloud  --limit ComputeHCI --playbook all
+```
+Run the Ceph Storage update command
+```
+openstack overcloud external-update run --stack overcloud --tags ceph
 ```
