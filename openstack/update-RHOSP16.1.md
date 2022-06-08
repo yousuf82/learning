@@ -190,7 +190,7 @@ Updating all Controller nodes
 openstack overcloud update run --stack <stack_name> --limit Controller --playbook all
 ```
 Updating all Compute nodes
-```
+
 To update specific Compute nodes, list the nodes that you want to update in a batch separated by a comma:
 ```
 openstack overcloud update run --limit <Compute0>,<Compute1>,<Compute2>,<Compute3>
