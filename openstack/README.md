@@ -21,7 +21,7 @@ $ openstack port create --network cma-stg-ext-net --mac-address `fa:16:3e:f1:b1:
 for OSP 16
 ```
 openstack port create --network gw-migraton  --disable-port-security --no-security-group \
---mac-address fa:16:3e:1b:07:90 gw-migraton-FG_Trunk_Subport 
+--mac-address fa:16:3e:1b:07:90 subport-trunk-cma-port
 
 ```
 Associate the subnet port with the trunk 
@@ -32,5 +32,5 @@ parent-trunk
 ```
 ```
 #for OSP 16
-openstack network trunk set --subport port=gw-migraton-FG_Trunk_Subport,segmentation-type=vlan,segmentation-id=3000 FG-Trunk
+openstack network trunk set --subport port=subport-trunk-cma-port,segmentation-type=vlan,segmentation-id=1477 parent-trunk
 ```
