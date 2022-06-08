@@ -1,5 +1,5 @@
 
-# enable port in iptables (opentack)
+# enable port in iptables (openstack)
 
 create iptables.yml file
 ```
