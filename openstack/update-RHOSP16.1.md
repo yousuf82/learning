@@ -159,7 +159,8 @@ Updating the overcloud images
 source ~/stackrc
 rm -rf ~/images/*
 cd ~/images
-for i in /usr/share/rhosp-director-images/overcloud-full-latest-16.1.tar /usr/share/rhosp-director-images/ironic-python-agent-latest-16.1.tar; do tar -xvf $i; done
+for i in /usr/share/rhosp-director-images/overcloud-full-latest-16.1.tar \
+/usr/share/rhosp-director-images/ironic-python-agent-latest-16.1.tar; do tar -xvf $i; done
 cd ~
 openstack overcloud image upload --update-existing --image-path /home/stack/images/
 openstack overcloud node configure $(openstack baremetal node list -c UUID -f value)
