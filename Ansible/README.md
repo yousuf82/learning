@@ -207,35 +207,34 @@ web = httpd
 db	= mariadb-server
 ```
 
-custome facts variables on host save under /etc/ansible/facts.d/
+## custome facts variables on host save under /etc/ansible/facts.d/
 
 use facts variables on yaml playbook like
-``
+
+```
 {{ ansible_facts['fqdn'] }} 
 ```
 
 
 ## Chapter 10 Modules
-
+```
 yum_repository			# to create and remove repo file
 rpm_key				# install and remove rpm key
 redhat_subscription		# register systems with rhel subscription
 rhsm_repository			# manage rhms repos enable and disable
 package_facts			# gethering package information as facts
-
+```
 ## LAB Failures condition
 
 ```
 ignore_errors: yes
 changed_when: false
 failed_when: web_srv == httpd
-```
-```
+
 block:
 rescue:
 always
-```
-```
+
 firewalld:
   service: http
   state: enabled
