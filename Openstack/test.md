@@ -2,6 +2,9 @@ If the Galera cluster does not restore as part of the restoration procedure, you
 Note
 In this procedure, you must perform some steps on one Controller node. Ensure that you perform these steps on the same Controller node as you go through the procedure.
 Procedure
+
+
+
 1.	On os1-prd-ctrl08, retrieve the Galera cluster virtual IP:
 
 ```
@@ -23,8 +26,8 @@ sudo pcs resource unmanage galera-bundle
 ```
 sudo docker container stop $(sudo docker container ls --all --format “{{.Names}}” --filter=name=galera-bundle)
 ```
-6.	Move the current directory on all Controller nodes:
-``
+6. Move the current directory on all Controller nodes:
+```
 sudo mv /var/lib/mysql /var/lib/mysql-save
 ```
 7.	Create the new directory /var/lib/mysql on all Controller nodes:
@@ -44,7 +47,7 @@ sudo docker container start $(sudo docker container ls --all --format "{{ .Names
 ```
 sudo docker exec -i $(sudo docker container ls --all --format "{{ .Names }}" \
       --filter=name=galera-bundle) bash -c "mysql_install_db --datadir=/var/lib/mysql --user=mysql"
-``
+```
 10.	Start the database on all Controller nodes:
 ```
 sudo docker exec $(sudo docker container ls --all --format "{{ .Names }}" \
@@ -99,7 +102,7 @@ sudo docker exec $(sudo docker container ls --all --format "{{ .Names }}"  --fil
 ```
 sudo docker exec $(sudo docker container ls --all --format "{{ .Names }}" \
          --filter=name=galera-bundle) bash -c "clustercheck"
-``
+```
 Ensure that the following message is displayed: “Galera cluster node is synced”, otherwise you must recreate the node.
 
 19.	On Controller-0, retrieve the cluster address from the configuration:
@@ -145,4 +148,9 @@ sudo docker container restart $(sudo docker container ls --all --format  "{{ .Na
 ```
 sudo pcs resource manage galera-bundle
 ```
+
+
+Red Hat Ref. 
+https://docs.redhat.com/en/documentation/red_hat_openstack_platform/13/html-single/undercloud_and_control_plane_back_up_and_restore/index#troubleshooting-the-galera-cluster_osp-ctlplane-br
+
 
